@@ -6,9 +6,9 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id })
-          .select("-__v -password")
-          .populate("savedBooks");
+        const userData = await User.findOne({ _id: context.user._id }).select(
+          "-__v -password"
+        );
 
         return userData;
       }
@@ -16,6 +16,7 @@ const resolvers = {
       throw new AuthenticationError("Not logged in");
     },
   },
+
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -37,33 +38,34 @@ const resolvers = {
       const user = await User.create(args);
       const token = signToken(user);
 
+      console.log( {token, user })
+
       return { token, user };
     },
-    saveBook: async (parent, { user, body }) => {
-      console.log(user);
+    saveBook: async (parent, { input }, context) => {
       if (context.user) {
-        const updatedUser = await User.findByIdAndUpdate(
-          { _id: user._id },
-          { $addToSet: { savedBooks: body } },
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: input } },
           { new: true, runValidators: true }
+        );
+      }
+
+      return updatedUser;
+    },
+    removeBook: async (parent, { bookId }, context) => {
+      console.log(args);
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedBooks: { bookId: bookId } } },
+          { new: true }
         );
 
         return updatedUser;
       }
 
       throw new AuthenticationError("You need to be logged in!");
-    },
-    removeBook: async (parent, { user, params }) => {
-      console.log(user);
-      if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: user._id },
-          { $pull: { savedBooks: { bookId: params.bookId } } },
-          { new: true }
-        );
-
-        return updatedUser;
-      }
     },
   },
 };
