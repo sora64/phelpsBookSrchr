@@ -5,12 +5,13 @@ const { AuthenticationError } = require("apollo-server-express");
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
+      console.log(context);
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id }).select(
-          "-__v -password"
-        );
+        const userData = await User.findOne({ _id: context.user._id })
+          .select("-__v -password")
+          .populate("savedBooks");
 
-        return userData;
+          return userData;
       }
 
       throw new AuthenticationError("Not logged in");
@@ -38,7 +39,7 @@ const resolvers = {
       const user = await User.create(args);
       const token = signToken(user);
 
-      console.log( {token, user })
+      console.log({ token, user });
 
       return { token, user };
     },
@@ -49,9 +50,9 @@ const resolvers = {
           { $addToSet: { savedBooks: input } },
           { new: true, runValidators: true }
         );
-      }
 
-      return updatedUser;
+        return updatedUser;
+      }
     },
     removeBook: async (parent, { bookId }, context) => {
       console.log(args);

@@ -30,7 +30,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+  const [saveBook] = useMutation(SAVE_BOOK);
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -61,7 +61,7 @@ const SearchBooks = () => {
       setSearchedBooks(bookData);
       setSearchInput("");
     } catch (err) {
-      console.error(error);
+      console.error(err);
     }
   };
 
