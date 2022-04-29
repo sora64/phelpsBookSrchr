@@ -6,7 +6,7 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
@@ -14,8 +14,10 @@ import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutations";
 
 const SavedBooks = () => {
-  const { loading, data } = useLazyQuery(GET_ME);
-  const userData = data?.me || {};
+  const { loading, data } = useQuery(GET_ME);
+  const userData = data?.me || { savedBooks:[] };
+
+
   const [removeBook] = useMutation(REMOVE_BOOK);
 
   const handleDeleteBook = async (bookId) => {
