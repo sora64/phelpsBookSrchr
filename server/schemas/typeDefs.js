@@ -14,6 +14,7 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
+    bookCount: Int
     savedBooks: [Book]
   }
 
@@ -42,7 +43,5 @@ const typeDefs = gql`
     removeBook(bookId: String!): User
   }
 `;
-
-module.exports = typeDefs;
 
 module.exports = typeDefs;
