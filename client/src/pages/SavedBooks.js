@@ -71,6 +71,7 @@ const SavedBooks = () => {
                     src={book.image}
                     alt={`The cover for ${book.title}`}
                     variant="top"
+                    style={{ width: "9.69em" }}
                   />
                 ) : null}
                 <Card.Body>
