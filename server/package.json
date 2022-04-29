@@ -17,6 +17,7 @@
     "faker": "^6.6.6",
     "graphql": "^16.4.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "mongoose": "^5.9.10"
   },
   "devDependencies": {
