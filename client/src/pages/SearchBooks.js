@@ -142,7 +142,7 @@ const SearchBooks = () => {
                 ) : null}
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
-                  <p className="small">Authors: {book.authors}</p>
+                  <p className="small">Author: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
                   <Card.Link href={book.link}>Google Books</Card.Link>
                   {Auth.loggedIn() && (
